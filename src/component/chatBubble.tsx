@@ -49,9 +49,7 @@ export default function ChatBubble(props: ItemProps) {
         {message}
       </Text>
       <Text style={{ marginBottom: 10, fontSize: 10, marginTop: 2 }}>
-        {date
-          .toLocaleTimeString()
-          .slice(0, date.toLocaleTimeString().length - 6)}
+        {new Date(date).toLocaleString()}
       </Text>
     </View>
   );

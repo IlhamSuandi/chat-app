@@ -17,11 +17,6 @@ const data = [
   { id: "3", name: "ardi" },
   { id: "4", name: "winata" },
   { id: "5", name: "maysa" },
-  { id: "6", name: "maysa" },
-  { id: "7", name: "maysa" },
-  { id: "8", name: "maysa" },
-  { id: "9", name: "maysa" },
-  { id: "10", name: "maysa" },
 ];
 
 type Props = NativeStackScreenProps<RootStackParamList, "home">;
@@ -40,9 +35,9 @@ function UserMessages({
         marginVertical: 4,
         justifyContent: "center",
       }}
-      onPress={() =>
-        props.navigation.navigate("chatScreen", { name: item.name })
-      }
+      onPress={() => {
+        props.navigation.navigate("chatScreen", { name: item.name });
+      }}
     >
       <View
         style={{

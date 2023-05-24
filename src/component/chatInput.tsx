@@ -2,6 +2,8 @@ import React from "react";
 import { KeyboardAvoidingView, Pressable, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import SendIcon from "react-native-vector-icons/FontAwesome";
+import io from "socket.io-client";
+import { SocketProvider, socket } from "../context/chatContext";
 
 type chatType = {
   from: string;
@@ -18,6 +20,19 @@ interface IProps {
 export default function ChatInput(props: IProps) {
   const { message, setMessage, chat } = props;
   const ref = React.useRef<any>(null);
+  const { sendMessage } = React.useContext(SocketProvider);
+
+  const send = () => {
+    if (message !== "") {
+      sendMessage(1, "ilham suandi", {
+        from: "me",
+        message: message,
+        date: new Date(),
+      });
+      setMessage("");
+      ref.current?.focus();
+    }
+  };
 
   return (
     <View
@@ -53,32 +68,15 @@ export default function ChatInput(props: IProps) {
           autoFocus
           blurOnSubmit={false}
           returnKeyType="done"
-          onSubmitEditing={() => {
-            if (message) {
-              ref.current?.focus();
-              setMessage(message);
-              chat.push({ from: "me", message: message, date: new Date() });
-            }
-          }}
+          onSubmitEditing={send}
           onKeyPress={(e) => {
             if (e.nativeEvent.key === "Enter") {
-              if (message !== "") {
-                e.preventDefault();
-                ref.current?.focus();
-                setMessage("");
-                chat.push({ from: "me", message: message, date: new Date() });
-              }
+              e.preventDefault();
+              send();
             }
           }}
         />
-        <Pressable
-          disabled={message ? false : true}
-          onPress={() => {
-            ref.current?.focus();
-            setMessage("");
-            chat.push({ from: "me", message: message, date: new Date() });
-          }}
-        >
+        <Pressable disabled={message ? false : true} onPress={send}>
           <SendIcon name="send" color={message ? "black" : "grey"} size={28} />
         </Pressable>
       </View>

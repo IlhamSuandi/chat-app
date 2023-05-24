@@ -3,107 +3,20 @@ import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import ChatInput from "../component/chatInput";
 import ChatBubble from "../component/chatBubble";
+import { socket } from "../context/chatContext";
 
-const chat: Array<any> = [
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "you",
-    message: "halo",
-    date: new Date(),
-  },
-  {
-    from: "you",
-    message: "ilham suandi ardi winata testing testing testing hlao hlaoi halo",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-  {
-    from: "me",
-    message: "testing",
-    date: new Date(),
-  },
-];
+const chat: Array<any> = [];
 
 export default function ChatScreen() {
   const [message, setMessage] = React.useState<string>("");
+  const [chatMessages, setChatMessages] = React.useState();
+
+  React.useEffect(() => {
+    socket.on("chat-message", (data) => {
+      setChatMessages(data);
+      data && chat.push(data);
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
